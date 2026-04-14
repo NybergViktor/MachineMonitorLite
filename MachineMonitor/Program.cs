@@ -5,13 +5,13 @@ var services = new ServiceCollection();
 
 // Register
 services.AddSingleton<IMachineService, MachineService>();
-services.AddSingleton<MachineDataProvider>();
+services.AddSingleton<IMachineDataSource, PlcMachineDataSource>();
 
 var serviceProvider = services.BuildServiceProvider();
 
 // Resolve
 var machineService = serviceProvider.GetRequiredService<IMachineService>();
-var provider = serviceProvider.GetRequiredService<MachineDataProvider>();
+var provider = serviceProvider.GetRequiredService<IMachineDataSource>();
 
 // Simulate plc data
 while (true)
