@@ -2,12 +2,12 @@ public class PlcMachineDataSource : IMachineDataSource
 {
     private readonly Random _random = new Random();
 
-    public List<MachineData> GetMachineData()
+    public async Task<List<MachineData>> GetMachineDataAsync()
     {
-        Thread.Sleep(200); // Simulate PLC communication delay
+        await Task.Delay(200); // Simulate async delay
 
         // Simulate occasional communication failure
-        if (_random.Next(0, 10) == 1)
+        if (_random.Next(0, 30) == 1)
         {
             throw new Exception("Simulated PLC communication failure");
         }
@@ -19,14 +19,16 @@ public class PlcMachineDataSource : IMachineDataSource
                 MachineName = "PLC-Mixer",
                 Temperature = _random.Next(60, 120),
                 IsRunning = true,
-                Timestamp = DateTime.Now
+                Timestamp = DateTime.Now,
+                Pressure = _random.Next(60,120)
             },
             new MachineData
             {
                 MachineName = "PLC-Press",
                 Temperature = _random.Next(70, 130),
                 IsRunning = _random.Next(0, 2) == 1,
-                Timestamp = DateTime.Now
+                Timestamp = DateTime.Now,
+                Pressure = _random.Next(60,120)
             }
         };
     }

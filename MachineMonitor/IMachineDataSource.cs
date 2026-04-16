@@ -1,4 +1,4 @@
 public interface IMachineDataSource
 {
-    List<MachineData> GetMachineData();
+    Task<List<MachineData>> GetMachineDataAsync();
 }

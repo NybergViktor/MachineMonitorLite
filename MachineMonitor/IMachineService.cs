@@ -5,4 +5,8 @@ public interface IMachineService
     void PrintHotMachines(List<MachineData> machines);
     void PrintAverageTemperature(List<MachineData> machines);
     void PrintStoppedMachines(List<MachineData> machines);
+    void PrintHighPressureMachines(List<MachineData> machines);
+    List<MachineData> GetRunningMachines(List<MachineData> machines);
+    List<MachineData> GetMachinesWithCriticalPressure(List<MachineData> machines);
+    bool GetMachinesThatHasCriticalAlarm(List<MachineData> machines);
 }

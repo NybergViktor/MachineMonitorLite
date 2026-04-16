@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 var services = new ServiceCollection();
 
@@ -13,22 +15,25 @@ var serviceProvider = services.BuildServiceProvider();
 var machineService = serviceProvider.GetRequiredService<IMachineService>();
 var provider = serviceProvider.GetRequiredService<IMachineDataSource>();
 
-// Simulate plc data
+// Simulate data
 while (true)
 {
     try
     {
-        var machineDataList = provider.GetMachineData();
+        var machineDataList = await provider.GetMachineDataAsync();
 
         Console.Clear();
 
-        machineService.PrintMachines(machineDataList);
+        // machineService.PrintMachines(machineDataList);
+        // Console.WriteLine();
+        // machineService.PrintHotMachines(machineDataList);
+        // Console.WriteLine();
+        // machineService.PrintHighPressureMachines(machineDataList);
+        // Console.WriteLine();
+        machineService.PrintRunningMachines(machineDataList);
         Console.WriteLine();
-
-        machineService.PrintHotMachines(machineDataList);
+        machineService.GetMachinesWithCriticalPressure(machineDataList);
         Console.WriteLine();
-
-        machineService.PrintAverageTemperature(machineDataList);
     }
     catch (Exception ex)
     {

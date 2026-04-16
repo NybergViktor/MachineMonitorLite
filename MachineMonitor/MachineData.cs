@@ -4,4 +4,5 @@ public class MachineData
     public double Temperature { get; set; }
     public bool IsRunning { get; set; }
     public DateTime Timestamp { get; set; }
+    public int Pressure { get; set; }
 }

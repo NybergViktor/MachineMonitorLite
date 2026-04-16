@@ -12,6 +12,7 @@ public class MachineService : IMachineService
             {
                 Console.WriteLine($"Machine: {machine.MachineName}");
                 Console.WriteLine($"Temperature: {machine.Temperature}");
+                Console.WriteLine($"Pressure: {machine.Pressure}");
                 Console.WriteLine($"Running: {machine.IsRunning}");
                 Console.WriteLine($"Timestamp: {machine.Timestamp}");
                 Console.WriteLine("----------------------------");
@@ -23,16 +24,31 @@ public class MachineService : IMachineService
         }
     }
 
+    public List<MachineData> GetRunningMachines(List<MachineData> machines)
+    {
+        if (machines.Count == 0)
+            return new List<MachineData>();
+
+        return machines.Where(m => m.IsRunning.Equals(true)).ToList();
+    }
+
+    /// <summary>
+    /// Print running machines using Console.WriteLine
+    /// </summary>
+    /// <param name="machines"></param>
     public void PrintRunningMachines(List<MachineData> machines)
     {
-        foreach (var machine in machines)
+        var runningMachines = GetRunningMachines(machines);
+
+        foreach (var machine in runningMachines)
         {
-            if (machine.IsRunning)
-            {
-                Console.WriteLine($"{machine.MachineName} is running.");
-            }
+            Console.WriteLine("----------------------");
+            Console.WriteLine($"Machine: {machine.MachineName}");
+            Console.WriteLine($"Timestamp: {machine.Timestamp}");
+            Console.WriteLine("----------------------");
         }
     }
+
 
     public void PrintHotMachines(List<MachineData> machines)
     {
@@ -74,4 +90,41 @@ public class MachineService : IMachineService
 
         return runningMachines.Average(m => m.Temperature);
     }
+
+    public void PrintHighPressureMachines(List<MachineData> machines)
+    {
+        var highPressureMachines = machines.Where(m => m.Pressure > 100).ToList();
+
+        foreach (var machine in highPressureMachines)
+        {
+            Console.WriteLine($"Machine {machine.MachineName} has high pressure: {machine.Pressure}");
+        }
+    }
+
+    /// <summary>
+    /// Gets running machines and return any with temperature above 110
+    /// </summary>
+    /// <requires>List of machines</requires>
+    /// <param name="machines"></param>
+    /// <returns></returns>
+    public bool GetMachinesThatHasCriticalAlarm(List<MachineData> machines)
+    {
+        var runnningMachines = GetRunningMachines(machines);
+
+        return runnningMachines.Any(m => m.Temperature > 110);
+    }
+
+    /// <summary>
+    /// Return machines that exceeds a critcal level of pressure above 120 or temperature above 110.
+    /// </summary>
+    /// <param name="machines"></param>
+    /// <returns></returns>
+    public List<MachineData> GetMachinesWithCriticalPressure(List<MachineData> machines)
+    {
+        if (machines.Count == 0)
+            return new List<MachineData>();
+
+        return machines.Where(m => m.Pressure > 120 || m.Temperature > 110).ToList();
+    }
+
 }
