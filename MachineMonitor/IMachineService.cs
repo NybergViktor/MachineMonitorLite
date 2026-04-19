@@ -9,4 +9,6 @@ public interface IMachineService
     List<MachineData> GetRunningMachines(List<MachineData> machines);
     List<MachineData> GetMachinesWithCriticalPressure(List<MachineData> machines);
     bool GetMachinesThatHasCriticalAlarm(List<MachineData> machines);
+    MachineData GetMostCriticalMachine(List<MachineData> machines);
+    Task<List<MachineData>> GetMachineDataWithRetryAsync(IMachineDataSource dataSource, int maxRetries)
 }
